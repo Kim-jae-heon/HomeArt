@@ -14,19 +14,6 @@
     border-radius: 8px;
 }
 
-.pic150 {
-	width: 150px;
-    height: 150px;
-    margin: 10px;
-    border-top: 4px;
-    border-left: 4px;
-    border-right: 4px;
-    border-bottom: 4px;
-    border-color: rgb(173, 166, 146);
-    border-style: solid;
-    border-radius: 8px;
-}
-
 .pic100 {
 	width: 100px;
     height: 100px;
@@ -65,16 +52,22 @@
     border-radius: 8px;
 }
 
+.memberInfo{
+	margin: 80px 0px 60px;
+}
+
+.activeBox {
+	margin: 20px 0px 20px;
+}
 
 /* 방명록 */
 .guestbook{
-	margin-left: 5px;
 	height: 50px;
-	width: 835px;
+	width: 600px;
 }
 
 .guestbookComment{
-	width: 730px;
+	width: 475px;
 	margin: 5px 0px 0px 60px;
 }
 
@@ -84,7 +77,7 @@
 }
 
 .guestbookCommentWrap {
-	display: none;
+  display: none;
 }
 
 .guestbookContent {
@@ -93,14 +86,14 @@
 }
 
 .guestbookSubmit {
-	 width: 810px;
-	 margin: 15px 0px 5px 15px;
+	 width: 500px;
+	 margin: 5px 0px 5px 0px;
 }
 
 .guestbookCommentSubmit {
-	width: 650px;
+	width: 400px;
 	height: 30px;
-	margin: 5px 10px 0px 70px;
+	margin: 3px 10px 0px 60px;
 }
 
 .guestbookButton {
@@ -111,43 +104,4 @@
 .guestbookReply, .guestbookModify, .guestbookDelete, .guestbookCommentModify, .guestbookCommentDelete {
 	margin: 5px 10px 0px 0px;
 	font-size: 8px;
-}
-
-/* 회원정보 */
-.memberInfo{
-	margin: 80px 0px 40px;
-}
-
-.memberModify {
-	margin-left: 25px; 
-	color: gray; 
-	margin-bottom: auto;
-}
-
-.memberModify:hover {
-	color: gray;
-	text-decoration: none;
-}
-
-/* 내 활동 */
-.activeBox {
-	margin: 20px 0px 20px;
-}
-
-.more {
-	color: gray; 
-	margin: auto 70px auto 0;
-}
-
-.more:hover{
-	color: gray;
-	text-decoration: none;
-}
-
-.activeBox h3 {
-	margin-left: 15px;
-}
-
-.col-1, .col-2, .col-5 {
-	text-align: center;
 }

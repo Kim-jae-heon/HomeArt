@@ -30,7 +30,7 @@ p, li, a{
 /* footer 맨 아래로 고정시키기 */
 .footer {
 	width:100%;
-	height:120px;
+	height:100px;
 	position:absolute;
 	bottom:0px;
 	text-align: left;
@@ -40,5 +40,4 @@ p, li, a{
 
 .footer-container {
 	margin: auto;
-	padding: 10px 0;
 }

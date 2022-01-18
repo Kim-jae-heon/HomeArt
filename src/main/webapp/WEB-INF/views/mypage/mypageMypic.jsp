@@ -18,9 +18,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
 
-<c:url value="/picShare/get" var="picBoardUrl"></c:url>
-
-<title>My picture</title>
+<title>Insert title here</title>
 </head>
 <body style="background-color: #333333;">
 <b:navBar></b:navBar>
@@ -29,13 +27,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h1 style="color: white; margin: 30px 0 20px 0">내 그림</h1>
+				<h1 style="color: white;">내 그림</h1>
 				<div class="row">
-					<c:forEach items="${picBoard }" var="picBoard">
-						<a href="${picBoardUrl }?id=${picBoard.board_id }">
-							<img class="pic200" src="${staticUrl }/picShare/${picBoard.board_id }/${picBoard.file_name}" alt="${picBoard.file_name }">
-						</a>
-					</c:forEach>
+					<img class="pic200" src="<spring:url value='/resources/img/logo.jpg'/>" class="img-thumbnail" alt="...">	
+					<img class="pic200" src="<spring:url value='/resources/img/logo1.jpg'/>" class="img-thumbnail" alt="...">	
+					<img class="pic200" src="<spring:url value='/resources/img/logo2.jpg'/>" class="img-thumbnail" alt="...">	
+					<img class="pic200" src="<spring:url value='/resources/img/logo3.jpg'/>" class="img-thumbnail" alt="...">	
+					<img class="pic200" src="<spring:url value='/resources/img/logo4.jpg'/>" class="img-thumbnail" alt="...">	
+					<img class="pic200" src="<spring:url value='/resources/img/logo5.jpg'/>" class="img-thumbnail" alt="...">
 				</div>
 			</div>
 		</div>

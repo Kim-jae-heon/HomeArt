@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="aside" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,73 +19,10 @@ body {
 }
 </style>
 <body>
-	<div class="row mb-3" style="background-color: rgb(179, 177, 178)">
-		<div class="col">
-			<nav class="navbar navbar-expand-lg navbar-light">
-				<a class="navbar-brand" href="#">HomeArt</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+	
+	<aside:CategoryAside />
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								홈아트
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false"> 작가그림공유 </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="#">공유게시판</a>
-
-								<a class="dropdown-item" href="#">그림승인</a>
-							</div>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								명화게시판
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								자유게시판
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								공지사항
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								카테고리
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-
-						<li class="nav-item active">
-							<a class="nav-link" href="#">
-								회원관리
-								<span class="sr-only">(current)</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		</div>
-	</div>
-
-	<div class="row">
+	<div class="row mt-3">
 		<div class="col" style="background-color: rgb(132, 151, 143);">
 			<form role="form" action="/controller/adminPage/adminNotice/modify?admin_no=<c:out value='${notice.admin_no}'/>" method="post">
 				<h4>제목</h4>

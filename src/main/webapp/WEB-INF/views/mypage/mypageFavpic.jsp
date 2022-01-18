@@ -18,7 +18,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
 
-<title>Like Picture</title>
+<title>Insert title here</title>
 </head>
 <body style="background-color: #333333">
 <b:navBar></b:navBar>

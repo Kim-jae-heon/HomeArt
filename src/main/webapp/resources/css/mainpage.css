@@ -39,16 +39,3 @@
 	margin-top: 20px;
 	
 }
-
-#noticeTitle {
-	color: red;
-}
-
-#noticeTitle:hover {
-	color: red;
-	text-decoration: none;	
-}
-
-.col-1, .col-2, .col-5 {
-	text-align: center;
-}

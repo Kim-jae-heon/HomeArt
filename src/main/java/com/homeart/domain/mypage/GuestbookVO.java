@@ -1,4 +1,4 @@
-package com.homeart.domain.mypage;
+package com.homeart.domain.member;
 
 import lombok.Data;
 
@@ -8,7 +8,4 @@ public class GuestbookVO {
 	private String member_id;
 	private String content;
 	private String mypage_owner;
-	private String profile_file_name;
-	
-	private boolean own;
 }

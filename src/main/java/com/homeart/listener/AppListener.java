@@ -42,6 +42,8 @@ public class AppListener implements ServletContextListener {
 
     	application.setAttribute("staticUrl", staticUrl); // s3 object url
     	application.setAttribute("appRoot", application.getContextPath()); // context path
+    	
+    	System.out.println(staticUrl);
     }
 
 }

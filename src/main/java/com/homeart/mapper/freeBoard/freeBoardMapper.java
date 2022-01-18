@@ -21,14 +21,12 @@ public interface freeBoardMapper {
 	public int delete(Integer id);
 
 	//데이터 목록 & 페이지 정보 가져오기
-	public List<freeBoardVO> getList(@Param("from") Integer from, @Param("searchType") String searchType, @Param("keyword") String keyword, @Param("items") Integer numberPerPage);
+	public List<freeBoardVO> getList(@Param("from") Integer from, @Param("items") Integer numberPerPage);
 
 	//총 게시물 수 가져오기
-	public Integer countBoard(@Param("searchType") String searchType, @Param("keyword") String keyword);
+	public Integer countBoard();
 
-	public List<freeBoardVO> getAdminList(@Param("searchType") String searchType, @Param("keyword") String keyword);
-
-	public Integer viewCount(Integer id);
+	public List<freeBoardVO> getAdminList();
 
 
 }

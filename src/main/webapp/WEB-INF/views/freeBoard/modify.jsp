@@ -35,11 +35,6 @@
 			}
 		});
 	});
-	
-	var radioValue = $('input[name=isPublic]').val();
-	
-	$('input:radio[name=isPublic]').is(":checked");
-	
 </script>
 <title>HomeArt 자유게시판  글 수정</title>
 </head>
@@ -57,29 +52,10 @@
 					<div class="post-group2">
 						<textarea id="summernote" name="content">${freeBoard.content }</textarea>   
 					</div>
-					<div class="row">
-						<div id="col-12">
-							<label for="">삭제할 파일 선택</label>
-						</div>
-					</div>
-					<c:forEach items="${fileNames }" var="fileName">
-						<div class="row">
-							<div id="col-1 d-flex justify-content-center align-items-center">
-								<input class="form-check-input" type="checkbox" name="removeFile" value="${fileName }">
-							</div>
-							<div class="col-11">
-								<img class="img-fluid" src="${staticUrl }/freeBoard/${freeBoard.board_id }/${fileName }" alt="${fileName }">
-							</div>
-						</div>
-					</c:forEach>
-					
-					<div class="form-group">
-						<input type="file" class="form-control-file" id="file-Button" name="files" accept="image/*" multiple>
-					</div>
 					<div class="switch switch--horizontal">
-						<input class="inputBox" id="radio-a" type="radio" name="isPublic" value="0" <c:if test="${freeBoard.isPublic eq 0 }">checked</c:if>>
+						<input class="inputBox" id="radio-a" type="radio" name="isPublic" value="0">
 						<label for="radio-a">비공개</label>
-						<input class="inputBox" id="radio-b" type="radio" name="isPublic" value="1" <c:if test="${freeBoard.isPublic eq 1 }">checked</c:if>>
+						<input class="inputBox" id="radio-b" type="radio" name="isPublic" checked="checked" value="1">
 						<label for="radio-b">공개</label>
 						<span class="toggle-outside">
 							<span class="slider toggle-inside"></span>
@@ -95,6 +71,7 @@
 			</div>
 		</div>
 	</div>
+<b:bottomInfo></b:bottomInfo>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </body>
 </html>

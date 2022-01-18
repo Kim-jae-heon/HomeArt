@@ -13,26 +13,16 @@ public class picBoardVO {
 	private String content;
 	private String writer;
 	
-	private String all;
-	
 	// Member DB의 nickName
 	private String nickName;
 	
 	private String file_name;
 	
 	private Integer viewCount;
-	private Integer like_cnt;
+	private Integer likeCount;
 	
 	private LocalDateTime inserted;
 	private LocalDateTime updated;
-	
-	// search
-	private String type;		// 검색 타입 (option중 하나)
-	private String keyword;		// 검색 내용
-	
-	private int startRowNum;
-	private int endRowNum;
-	private int rowCount;
 	
 	
 	

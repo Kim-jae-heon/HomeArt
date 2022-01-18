@@ -7,12 +7,12 @@
 	border: none;
 	font-size: 25px;
 	resize: none;
-	overflow: hidden;
 	outline: none;
 	display: block;
 	width: 100%;
 	line-height: 20px;
 	letter-spacing: -.4px;
+	overflow: hidden;
 	padding-top: 15px;
 }
 .note-editor{

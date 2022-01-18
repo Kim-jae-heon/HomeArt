@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.homeart.domain.member.MemberVO;
-import com.homeart.service.member.CountryService;
 import com.homeart.service.member.MemberService;
 
 import lombok.Setter;
@@ -25,37 +23,9 @@ public class MemberController {
 	@Setter(onMethod_ = @Autowired)
 	private MemberService service;
 	
-	@Setter(onMethod_ = @Autowired)
-	private CountryService Countryservice;
-	
-	@RequestMapping("/idcheck") 
-	@ResponseBody
-	public String idcheck(String member_id) {
-
-		boolean has = service.hasId(member_id);
-		
-		if (has) {
-			return "unable";
-		} else {
-			return "able";
-		}
-	}
-	
-	@RequestMapping("/nickNameCheck")
-	@ResponseBody
-	public String nickNameCheck(String nickName) {
-		boolean has = service.hasNickName(nickName);
-		
-		if (has) {
-			return "unable";
-		} else {
-			return "able";
-		}
-	}
-	
 	@GetMapping("/signup")
-	public void signup(Model model) {
-		model.addAttribute("countryList", Countryservice.getList());
+	public void signup() {
+		
 	}
 	
 	@PostMapping("/signup")
@@ -92,35 +62,26 @@ public class MemberController {
 		// service 사용해서 아이디로 MemberVO 얻고
 		MemberVO vo = service.read(member_id);
 		
+		
+		// MemberVO가 null이거나 패스워드가 다르면 로그인 실패		
 		if(vo == null) {
 			// 로그인 실패
-			rttr.addFlashAttribute("result", "회원 정보가 없습니다.");
-			return "redirect:/member/login";
+			return null;
 		}
 		
-		if(vo.getIsAdmin()==1) { /* 관리자 로그인 */
-			session.setAttribute("loggedInMember", vo);
-			return "redirect:/adminPage/AdminMain";
+		// 얻어온 MemberVO의 패스워드와 입력한 패스워드가 같은지 확인
+		boolean correctPassword = password.equals(vo.getPassword());
+		
+		if(!correctPassword) {
+			// 로그인 실패
+			return null;
 		}
-		else { /* 일반 회원 로그인 */
-				
-			// MemberVO가 null이거나 패스워드가 다르면 로그인 실패		
-			
-			// 얻어온 MemberVO의 패스워드와 입력한 패스워드가 같은지 확인
-			boolean correctPassword = password.equals(vo.getPassword());
-			
-			if(!correctPassword) {
-				// 로그인 실패
-				rttr.addFlashAttribute("result", "패스워드가 다릅니다.");
-				return "redirect:/member/login";
-			}
-			
-			// MemberVO가 null이 아니거나 패스워드가 같으면 로그인 성공
-			// 로그인 성공
-			rttr.addFlashAttribute("result", vo.getNickName() + "님 반갑습니다.");
-			session.setAttribute("loggedInMember", vo);
-			return "redirect:/";
-		}
+		
+		// MemberVO가 null이 아니거나 패스워드가 같으면 로그인 성공
+		// 로그인 성공
+		rttr.addFlashAttribute("result", vo.getNickName() + "님 반갑습니다.");
+		session.setAttribute("loggedInMember", vo);
+		return "redirect:/";
 		
 	}
 	

@@ -5,8 +5,8 @@
   
  <mapper namespace="com.homeart.mapper.member.MemberMapper">
 	<insert id="insert">
-	INSERT INTO Member (member_id, member_name, password, nickName, email, country)
-	VALUE (#{member_id}, #{member_name}, #{password}, #{nickName}, #{email}, #{country})
+	INSERT INTO Member (member_id, member_name, password, nickName, email, country, isAdmin)
+	VALUE (#{member_id}, #{member_name}, #{password}, #{nickName}, #{email}, #{country}, #{isAdmin})
 	</insert>
 	
 	<select id="select" resultType="com.homeart.domain.member.MemberVO">
@@ -21,7 +21,8 @@
  		password = #{password},
  		nickName = #{nickName},
  		email = #{email},
- 		country = #{country}
+ 		country = #{country},
+ 		isAdmin = #{isAdmin}
  	WHERE
  		member_id = #{member_id}
  	</update>  	
@@ -43,54 +44,6 @@
 	    isAdmin
 	FROM
 	    Member
-	ORDER BY inserted DESC
+	ORDER BY inserted DESC;
  	</select>
- 	
- 	<select id="selectByNickName" resultType="com.homeart.domain.member.MemberVO">
-	SELECT member_id, member_name, password, email, country, inserted, isAdmin
-	FROM Member
-	WHERE nickName = #{nickName}
-	</select>
-
-	<select id="selectNotice" resultType="com.homeart.domain.freeBoard.freeBoardVO">
-	SELECT 
-	    f.*, m.nickName
-	FROM
-	    freeBoard f
-	        JOIN
-	    Member m
-	WHERE
-	    f.writer = m.member_id AND m.isAdmin = 1
-	ORDER BY f.inserted DESC;
-	</select>
-		
-	<select id="selectWriting" resultType="com.homeart.domain.freeBoard.freeBoardVO">
-	SELECT * 
-	FROM freeBoard 
-	WHERE writer = #{member_id}
-	ORDER BY inserted DESC
-	</select>
-	
-	<select id="selectWritingLimit5" resultType="com.homeart.domain.freeBoard.freeBoardVO">
-	SELECT * 
-	FROM freeBoard 
-	WHERE writer = #{member_id}
-	ORDER BY inserted DESC
-	LIMIT 0, 5
-	</select>
-	
-	<select id="selectPicture" resultType="com.homeart.domain.picShare.picBoardVO">
-	SELECT * 
-	FROM picBoard 
-	WHERE writer = #{member_id} 
-	ORDER BY inserted DESC
-	</select>
-		
-	<select id="selectPictureLimit5" resultType="com.homeart.domain.picShare.picBoardVO">
-	SELECT * 
-	FROM picBoard 
-	WHERE writer = #{member_id} 
-	ORDER BY inserted DESC
-	LIMIT 0, 5
-	</select>
  </mapper>

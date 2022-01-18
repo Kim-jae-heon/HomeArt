@@ -1,11 +1,11 @@
-package com.homeart.mapper.mypage;
+package com.homeart.mapper.member;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.homeart.domain.mypage.GuestbookCommentVO;
-import com.homeart.domain.mypage.GuestbookVO;
+import com.homeart.domain.member.GuestbookCommentVO;
+import com.homeart.domain.member.GuestbookVO;
 
 public interface GuestbookMapper {
 	/* 방명록 */
@@ -30,7 +30,4 @@ public interface GuestbookMapper {
 	
 	public List<GuestbookCommentVO> listCommentByGuestbookId(@Param("mypage_owner") String mypage_owner, @Param("guestbook_id") String guestbook_id);
 
-	public int insertNoPic(GuestbookVO vo);
-
-	public int updateProfile(@Param("member_id") String member_id, @Param("profile_file_name") String profile_file_name);
 }

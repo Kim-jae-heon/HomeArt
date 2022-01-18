@@ -19,7 +19,6 @@
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
 
 <c:url value="/mypage" var="mypageUrl"></c:url>
-<c:url value="/freeBoard/get" var="freeBoardUrl"></c:url>
 
 <title>HomeArt</title>
 </head>
@@ -71,34 +70,36 @@
 			</div>
 		</div>
 	</div>
-	
 	<!-- 공지사항 -->
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h3 style="margin-bottom: 20px">공지사항 <i class="fas fa-bullhorn" style="color: red;"></i></h3>
+				<h3>공지사항 <i class="fas fa-bullhorn" style="color: red;"></i></h3>
 				<table class="table">
 					<thead>
 						<tr>
-							<th class=col-1>
+							<th>
 								<i class="fab fa-slack-hash"></i>
 							</th>
-							<th class=col-5>제목</th>
-							<th class=col-2>작성자</th>
-							<th class=col-2 style="text-align: center;">작성일</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${notice }" var="notice" varStatus="status" >
-							<tr>
-								<td class=col-1>${status.count }</td>
-								<td class=col-5>
-									<a href="${freeBoardUrl }?id=${notice.board_id}" id="noticeTitle">${notice.title}</a>
-								</td>
-								<td class=col-2 >${notice.nickName }</td>
-								<td class=col-2>${notice.boardInserted }</td>
-							</tr>
-						</c:forEach>
+						<!-- DB만들어서 수정 -->
+						<%
+							for(int i=1; i<6; i++){
+						%>
+						<tr>
+							<td><%= i %></td>
+							<td style="color: red">공지사항<%= i %></td>
+							<td>작성자<%= i %></td>
+							<td>등록시간<%= i %></td>
+						</tr>
+						<%
+							}
+						%>
 					</tbody>
 				</table>
 			</div>

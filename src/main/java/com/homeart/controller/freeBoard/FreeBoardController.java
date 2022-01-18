@@ -1,6 +1,5 @@
 package com.homeart.controller.freeBoard;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.homeart.domain.freeBoard.PageInfoVO;
 import com.homeart.domain.freeBoard.freeBoardVO;
@@ -26,16 +25,15 @@ public class FreeBoardController {
 	private freeBoardService service;
 	
 	@GetMapping("/list")
-	public void list(@RequestParam(value="page", defaultValue = "1") Integer page, 
-			@RequestParam(value = "searchType", required = false) String searchType, 
-			@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+	public void list(@RequestParam(value="page", defaultValue = "1") Integer page, Model model) {
+		System.out.println("ControllerList");
 		
 		Integer numberPerPage = 10; //한페이지 row수
 		
 		//게시물 목록
-		List<freeBoardVO> listAdmin = service.getList(searchType, keyword);
-		List<freeBoardVO> listMember = service.getList(page, searchType, keyword, numberPerPage);
-		PageInfoVO pageInfo = service.getPageInfo(page, searchType, keyword, numberPerPage);
+		List<freeBoardVO> listAdmin = service.getList();
+		List<freeBoardVO> listMember = service.getList(page, numberPerPage);
+		PageInfoVO pageInfo = service.getPageInfo(page, numberPerPage);
 		
 		model.addAttribute("listAdmin", listAdmin);
 		model.addAttribute("listMember", listMember);
@@ -43,33 +41,19 @@ public class FreeBoardController {
 	}
 	
 	//파라미터로 원하는 목록(값)출력
-	@GetMapping("/get")
-	public void getPost(@RequestParam("id") Integer id, Model model) {
-		service.viewCount(id);
+	@GetMapping({"/get", "/modify"})
+	public void get(@RequestParam("id") Integer id, Model model) {
 		freeBoardVO freeBoard = service.get(id);
-		String[] fileNames = service.getFileNames(id);
-		
+		System.out.println(freeBoard.getBoard_id());
 		model.addAttribute("freeBoard", freeBoard);
-		model.addAttribute("fileNames", fileNames);
-	}
-	
-	@GetMapping("/modify")
-	public void getModiInfo(@RequestParam("id") Integer id, Model model) {
-		freeBoardVO freeBoard = service.get(id);
-		String[] fileNames = service.getFileNames(id);
-		
-		model.addAttribute("freeBoard", freeBoard);
-		model.addAttribute("fileNames", fileNames);
 	}
 	
 	@PostMapping("/modify")
-	public String modify(freeBoardVO board, String[] removeFile, MultipartFile[] files) {
+	public String modify(freeBoardVO board) {
 		
-		try {
-			service.modify(board, removeFile, files);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		System.out.println(board);
+		
+		service.modify(board);
 		return "redirect:/freeBoard/list";
 	}
 
@@ -80,12 +64,8 @@ public class FreeBoardController {
 	
 	//테이블에 등록
 	@PostMapping("/post")
-	public String post(freeBoardVO board, MultipartFile[] files) {
-		try {
-			service.post(board, files);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public String post(freeBoardVO board) {
+		service.post(board);
 		return "redirect:/freeBoard/list";
 	}
 	

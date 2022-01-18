@@ -17,63 +17,50 @@
 	SELECT COUNT(*) FROM masterpiece
 	</select>
 	
-	
 	<select id="getListPage" resultType="com.homeart.domain.masterpiece.MasterpieceVO">
 SELECT 
-	p.masterpiece_id,
+    p.masterpiece_id,
     p.title,
     p.content,
     p.member_id,
-    p.country,
-    p.artist,
-    p.age,
     m.nickName,
-    p.file_name,
-    count(lt.masterpiece_id) as likeSu
+    p.file_name
 FROM
-	masterpiece p JOIN Member m ON p.member_id = m.member_id
-	left outer join likeTable lt on p.masterpiece_id = lt.masterpiece_id
-group by p.masterpiece_id
-ORDER BY rand()
+    masterpiece p
+        JOIN
+    Member m ON p.member_id = m.member_id
+ORDER BY p.member_id DESC
 LIMIT #{from}, #{items}
 	</select>
 
 	<select id="getList" resultType="com.homeart.domain.masterpiece.MasterpieceVO">
 SELECT 
-	p.masterpiece_id,
+    p.masterpiece_id,
     p.title,
     p.content,
     p.member_id,
-    p.country,
-    p.artist,
-    p.age,
-    m.nickName,
-    p.file_name
-FROM
-	masterpiece p
-JOIN 
-	Member m ON p.member_id = m.member_id
-ORDER BY rand()
-<!-- ORDER BY masterpiece_id DESC -->
-	</select>
-		
-	<select id="read" resultType="com.homeart.domain.masterpiece.MasterpieceVO">
-SELECT 
-	p.masterpiece_id,
-    p.title,
-    p.content,
-    p.member_id,
-    p.country,
-    p.artist,
-    p.age,
     m.nickName,
     p.file_name
 FROM
     masterpiece p
-JOIN
-	Member m ON p.member_id = m.member_id
+        JOIN
+    Member m ON p.member_id = m.member_id
+ORDER BY p.member_id DESC
+	</select>
+		
+	<select id="read" resultType="com.homeart.domain.masterpiece.MasterpieceVO">
+SELECT 
+    p.masterpiece_id,
+    p.title,
+    p.content,
+    p.member_id,
+    m.nickName
+FROM
+    masterpiece p
+        JOIN
+    Member m ON p.member_id = m.member_id
 WHERE
-	p.masterpiece_id = #{masterpiece_id}
+	p.masterpiece_id = #{id}
 	</select>
  
 	<insert id="insert" useGeneratedKeys="true" keyColumn="masterpiece_id" keyProperty="masterpiece_id">
@@ -84,72 +71,10 @@ WHERE
 	</insert>
 	
 	<delete id="delete">
-		DELETE FROM masterpiece WHERE masterpiece_id = #{masterpiece_id}
+	DELETE FROM masterpiece WHERE masterpiece_id = #{masterpiece_id}
 	</delete>
 
-<!-- 	<select id="selectNamesByMasterpieceId" resultType="string">
-	SELECT file_name FROM masterpiece WHERE masterpiece_id = #{masterpiece_id}
-	</select>
-	
-	<delete id="deleteByBoardId">
-	DELETE FROM file_name WHERE masterpiece_id = #{masterpiece_id}
-	</delete> -->
-	
-		<update id="update">
-	UPDATE
-		masterpiece
-	SET
-		title = #{title},
-		content = #{content},
-		country = #{country},
-		artist = #{artist},
-		age = #{age},
-		file_name = #{file_name}
-	WHERE
-		masterpiece_id = #{masterpiece_id}
-	</update>
-	<!-- 
-	<delete id="filedelete">
-	DELETE FROM masterpiece WHERE masterpiece_id = #{masterpiece_id} AND file_name = #{file_name}
-	</delete>
-	
-	<insert id="fileinsert">
-	INSERT INTO File (masterpiece_id, file_name) VALUES (#{masterpiece_id}, #{file_name})
-	</insert> -->
 
-<!-- 	<insert id="insert" useGeneratedKeys="true" keyColumn="masterpiece_id" keyProperty="masterpiece_id">
-	-->
-	
-	<select id="getLike" resultType="com.homeart.domain.masterpiece.likeVO">
-		SELECT 
-			*
-		FROM
-		    likeTable
-		WHERE
-			masterpiece_id = #{masterpiece_id}
-			and member_id = #{member_id}
-	</select>
-
-	
-	<insert id="addLike" useGeneratedKeys="true">
-	INSERT INTO
-		likeTable (masterpiece_id, member_id)
-	VALUES
-		(#{masterpiece_id}, #{member_id})
-	</insert>
-	
- 	<delete id="delLike">
-		delete from likeTable where like_id=(select like_id from likeTable where masterpiece_id = #{masterpiece_id} and member_id = #{member_id})
-	</delete>
-
-	<select id="getLikeSu" resultType="int">
-	SELECT
-		COUNT(masterpiece_id) as likeSu 
-	FROM 
-		likeTable
-	WHERE
-		masterpiece_id = #{masterpiece_id}
-	</select>
 </mapper>
 
 

@@ -15,9 +15,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
 
-<script>
-	
-</script>
 
 <title>Modify</title>
 <style>
@@ -35,7 +32,7 @@ body {
 		<!-- Section -->
 		<section class="py-5">
 
-			<form id="modifyForm" method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data">
 				<div class="container px-4 px-lg-8 my-5">
 					<div class="row gx-4 gx-lg-5 align-items-center">
 
@@ -47,33 +44,32 @@ body {
 						<!-- artName, artist, artInfo (right) -->
 						<div class="form-group col-md-6">
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="artName" aria-describedby="button-addon2" name="title" value="${board.title }">
+								<input type="text" class="form-control" placeholder="artName" aria-describedby="button-addon2">
 							</div>
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" readonly value="${loggedInMember.member_id }" aria-describedby="button-addon2" name="writer">
+								<input type="text" class="form-control" placeholder="artist" aria-describedby="button-addon2">
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend"></div>
-								<textarea class="form-control" aria-label="With textarea" placeholder="artinfo" style="resize: none;" rows="10" name="content">${board.content }</textarea>
+								<textarea class="form-control" aria-label="With textarea" placeholder="artinfo" style="resize: none;" rows="10"></textarea>
 							</div>
 
-							<input type="hidden" name="board_id" value="${board.board_id }">
+							<input type="hidden" name="boardId" value="${board.board_id }">
 							<input type="hidden" name="nickName" value="${board.nickName }">
-
+								
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="container send-button" style="text-align: right;">
-					<input type="hidden" name="board_id" value="${board.board_id }">
-					<button id="removeSubmitButton" class="btn btn-outline-danger">Delete</button>
+					<button id="removeSubmitButton" class="btn btn-outline-danger" type="submit">Delete</button>
 					<button id="modifySubmitButton" class="btn btn-outline-light" type="submit">Modify</button>
 				</div>
 			</form>
 
 
 		</section>
-
+		
 		<b:bottomInfo></b:bottomInfo>
 
 	</div>
@@ -82,25 +78,19 @@ body {
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 
 	<script>
-		$(document).ready(function() {
-
-			// remove 버튼 실행.
-			$("#removeSubmitButton").click(function(e) {
+		$(document).ready(function () {
+			$("#removeSubmitButton").click(function (e) {
 				e.preventDefault();
-				if (confirm("삭제하시겠습니까?")) {
-					$("#modifyForm").attr("action", "remove").submit();
-				}
+				$("#modifyForm").attr("action", "remove").submit();
 			});
-
-			// modify 버튼 실행.
-			$("#modifySubmitButton").click(function(e) {
+			
+			$("#modifySubmitButton").click(function (e) {
 				e.preventDefault();
-				if (confirm("수정하시겠습니까?")) {
-					$("#modifyForm").attr("action", "modify").submit();
-				}
+				$("#modifyForm").attr("action", "modify").submit();
 			});
-
+			
 		});
+	
 	</script>
 
 </body>

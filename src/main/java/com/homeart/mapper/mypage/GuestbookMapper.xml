@@ -3,18 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
- <mapper namespace="com.homeart.mapper.mypage.GuestbookMapper">
- 	<insert id="insert" useGeneratedKeys="true" keyProperty="guestbook_id" keyColumn="guestbook_id">
- 	INSERT INTO mypage_guestbook (member_id, content, mypage_owner, profile_file_name)
- 	VALUE (#{member_id}, #{content}, #{mypage_owner}, #{profile_file_name})
+ <mapper namespace="com.homeart.mapper.member.GuestbookMapper">
+ 	<insert id="insert">
+ 	INSERT INTO mypage_guestbook (guestbook_id, member_id, content, mypage_owner)
+ 	VALUE ({#guestbook_id}, #{member_id}, #{content}, #{mypage_owner})
  	</insert>
  	
- 	<insert id="insertNoPic" useGeneratedKeys="true" keyProperty="guestbook_id" keyColumn="guestbook_id">
- 	INSERT INTO mypage_guestbook (member_id, content, mypage_owner)
- 	VALUE (#{member_id}, #{content}, #{mypage_owner})
- 	</insert>
- 	
- 	<select id="list" resultType="com.homeart.domain.mypage.GuestbookVO">
+ 	<select id="list" resultType="com.homeart.domain.member.GuestbookVO">
  	SELECT *
  	FROM mypage_guestbook
  	WHERE mypage_owner = #{mypage_owner}
@@ -31,7 +26,7 @@
  	VALUE (#{guestbook_comment_id}, #{member_id}, #{guestbook_id}, #{content})
  	</insert>
  	
- 	<select id="listComment" resultType="com.homeart.domain.mypage.GuestbookCommentVO">
+ 	<select id="listComment" resultType="com.homeart.domain.member.GuestbookCommentVO">
  	SELECT *
  	FROM mypage_guestbook_comment
  	WHERE guestbook_id = #{guestbook_id}
@@ -43,16 +38,10 @@
  	WHERE guestbook_comment_id = #{guestbook_comment_id}
  	</delete>
  	
- 	<select id="listCommentByGuestbookId" resultType="com.homeart.domain.mypage.GuestbookCommentVO">
+ 	<select id="listCommentByGuestbookId" resultType="com.homeart.domain.member.GuestbookCommentVO">
  	SELECT c.guestbook_comment_id, c.member_id, c.guestbook_id, c.content
 	FROM mypage_guestbook_comment c JOIN mypage_guestbook g ON c.guestbook_id = g.guestbook_id
 	WHERE c.guestbook_id = #{guestbook_id}
 	ORDER BY c.guestbook_comment_id;
  	</select>
- 	
- 	<update id="updateProfile">
- 	UPDATE mypage_guestbook
-	SET profile_file_name = #{profile_file_name}
-	WHERE member_id = #{member_id}
- 	</update>
  </mapper>

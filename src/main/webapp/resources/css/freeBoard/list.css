@@ -22,14 +22,13 @@ a{
 
 /* COLUMNS */
 
-.board-box {
-	min-width: 915px;
+.col {
 	display: block;
 	float:left;
-	margin: 2% 0 1% 1.6%;
+	margin: 3% 0 1% 1.6%;
 }
 
-.board-box:first-of-type {
+.col:first-of-type {
   margin-left: 0;
 }
 
@@ -91,32 +90,12 @@ table thead tr th, table tbody tr td{
 	text-align: center;
 }
 
-.table td{
-	padding: .75rem 10px;
-}
+
 td a {
-	max-width: 380px;
-	display: inline-block;
+	max-width: 420px;
+	display: block;
   	overflow: hidden;
 	word-wrap: break-word;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-.freeBoard-title{
-	justify-content: center;
-    min-width: 450px;
-}
-
-tr {
-	border-top: 1px solid #dee2e6;
-}
-.table-admin{
-	margin-top: 20px;
-}
-.searchType{
-	width: fit-content;
-}
-.form-control:focus{
-	border: 1px solid black;
-	box-shadow: none;
 }

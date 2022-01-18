@@ -16,35 +16,19 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <c:url value="/mypage" var="mypageUrl"></c:url>
 <c:url value="/mypage/my_picture" var="mypicUrl"></c:url>
 <c:url value="/mypage/favorite_picture" var="favpicUrl"></c:url>
 <c:url value="/mypage/my_post" var="mypostUrl"></c:url>
 <c:url value="/mypage/my_reply" var="myreplyUrl"></c:url>
-<c:url value="/mypage/modify" var="modifyUrl"></c:url>
-<c:url value="/freeBoard/get" var="freeBoardUrl"></c:url>
-<c:url value="/picShare/get" var="picBoardUrl"></c:url>
+<style>
 
-<script>
-	/* 답글 토글 */
-	$(document).ready(function(){
-		$(".guestbookReply").click(function(){
-			var element = $(this).parent();
-			var element2 = element.parent();
-			element2.next().slideToggle("fast");
-		});
-		
-		/* 모달 창 */
-		if(history.state == null){
-			$("#modal1").modal('show');
-			history.replaceState({}, null);
-		}
-	});
-</script>
+</style>
 
-<title>${member.member_id}'s MyPage</title>
+
+
+<title>MyPage</title>
 </head>
 <body>
 <b:navBar></b:navBar>
@@ -56,54 +40,30 @@
 				<div class="row memberInfo">
 					<c:choose>
 					<c:when test="${sessionScope.loggedInMember.member_id == member.member_id }">
-						<c:if test="${isProfile == true }">						
-							<img src="${staticUrl }/profile/${member.member_id}/${profile.profile_file_name}" class="profilepic">
-						</c:if>
-						<c:if test="${isProfile == false }">
-							<img src="${staticUrl }/profile/basic_profile.jpg" class="profilepic">
-						</c:if>
+						<img src="<spring:url value='/resources/img/cat1.jpg'/>" class="profilepic">
 						<div class="col" style="padding-left: 20px;">
-							<div class="row" style="padding-left: 15px;">
-								<div style="font-weight: bold;"><i class="fas fa-info-circle" style="color: rgb(173, 166, 146);"></i> MyInfo</div>
-								<a class="memberModify" href="${modifyUrl }?member_id=${sessionScope.loggedInMember.member_id }"> edit </a>
-							</div>
+							<div style="font-weight: bold;"><i class="fas fa-info-circle" style="color: rgb(173, 166, 146);"></i> MyInfo</div>
 							<div>아이디 : ${sessionScope.loggedInMember.member_id }</div>
-							<div>이　름 : ${sessionScope.loggedInMember.member_name }</div>
+							<div>이름 : ${sessionScope.loggedInMember.member_name }</div>
 							<div>닉네임 : ${sessionScope.loggedInMember.nickName }</div>
-							<div>국　가 : ${sessionScope.loggedInMember.country }</div>
+							<div>국가 : ${sessionScope.loggedInMember.country }</div>
 							<div>이메일 : ${sessionScope.loggedInMember.email }</div>
 						</div>
 					</c:when>
 					<c:otherwise>
-						<c:if test="${isProfile == true }">						
-							<img src="${staticUrl }/profile/${member.member_id}/${profile.profile_file_name}" class="profilepic">
-						</c:if>
-						<c:if test="${isProfile == false }">
-							<img src="${staticUrl }/profile/basic_profile.jpg" class="profilepic">
-						</c:if>
 						<div class="col">
-							<div style="font-weight: bold;"><i class="fas fa-info-circle" style="color: rgb(173, 166, 146);"></i> ${member.member_id }'s Info</div>
-							<div>이　름 : ${member.member_name }</div>
+							<div>이름 : ${member.member_name }</div>
 							<div>닉네임 : ${member.nickName }</div>
-							<div>국　가 : ${member.country }</div>
-							<div>이메일 : ${member.email }</div>
 						</div>
 					</c:otherwise>
 					</c:choose>
 				</div>
 				
-				<hr style="margin-bottom:30px">
 				<!-- 방명록 -->
 				<h2> ${member.nickName }님의 방명록 </h2>
-				<div class="gusetbookWrap"></div>
 				<c:forEach items="${list }" var="guestbook">
 					<div class="row guestbook">
-						<c:if test="${guestbook.profile_file_name eq NULL }">
-							<img class="pic40" src="${staticUrl }/profile/basic_profile.jpg" class="img-thumbnail" alt="...">
-						</c:if>
-						<c:if test="${guestbook.profile_file_name ne NULL }">
-							<img class="pic40" src="${staticUrl }/profile/${guestbook.member_id}/${guestbook.profile_file_name}" class="img-thumbnail" alt="...">
-						</c:if>
+						<img class="pic40" src="<spring:url value='/resources/img/logo3.jpg'/>" class="img-thumbnail" alt="...">
 						<a class="guestbookContent" href="${mypageUrl }?member_id=${guestbook.member_id }">${guestbook.member_id }</a>
 						<p class="guestbookContent">　　</p>
 						<p class="guestbookContent">${guestbook.content }</p>
@@ -132,9 +92,9 @@
 							</c:if>
 						</c:forEach>
 						<div class="input-group mb-3 guestbookCommentSubmit">
-						  <input type="text" class="form-control" placeholder="답글을 작성해주세요. (최대 100자)" aria-label="답글" aria-describedby="guestbookComment">
+						  <input type="text" class="form-control" placeholder="댓글을 작성해주세요. (최대 100자)" aria-label="댓글" aria-describedby="button-addon2">
 						  <div class="input-group-append">
-						    <button class="btn btn-dark" type="button" id="guestbookComment">작성</button>
+						    <button class="btn btn-outline-secondary" type="button" id="button-addon2">작성</button>
 						  </div>
 						</div>
 					</div>
@@ -142,57 +102,58 @@
 				
 				<c:if test="${sessionScope.loggedInMember.member_id != member.member_id }">
 					<div class="input-group mb-3 guestbookSubmit">
-					  <input type="text" class="form-control" placeholder="방명록을 작성해주세요. (최대 100자)" aria-label="방명록" aria-describedby="guestbook">
+					  <input type="text" class="form-control" placeholder="방명록을 작성해주세요. (최대 100자)" aria-label="방명록" aria-describedby="button-addon2">
 					  <div class="input-group-append">
-					    <button class="btn btn-dark" type="button" id="guestbook">작성</button>
+					    <button class="btn btn-outline-secondary" type="button" id="button-addon2">작성</button>
 					  </div>
 					</div>
 				</c:if>
 				
-				<hr style="margin-top:30px">
 				<!-- 내 활동 -->
 				<c:if test="${sessionScope.loggedInMember.member_id == member.member_id }">
-					<div class="activeBox" style="margin-top: 30px;">
-						<div class="row d-flex justify-content-between">
+					<div class="activeBox">
+						<div class="row">
 							<h3>내 그림들</h3>
-							<a class="more" href="${mypicUrl }">..more</a>
+							<a href="${mypicUrl }">더보기</a>
 						</div>
 						<div class="row">
-							<c:forEach items="${picBoardLimit5 }" var="picBoard">
-								<a href="${picBoardUrl }?id=${picBoard.board_id }">
-									<img class="pic150" src="${staticUrl }/picShare/${picBoard.board_id }/${picBoard.file_name}" alt="${picBoard.file_name }">
-								</a>
-							</c:forEach>
+							<img class="pic100" src="<spring:url value='/resources/img/logo.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo1.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo2.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo3.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo4.jpg'/>" class="img-thumbnail" alt="...">	
 						</div>
 					</div>
 					<div class="activeBox">
-						<div class="row d-flex justify-content-between">
+						<div class="row">
 							<h3>좋아요 누른 그림</h3>
-							<a class="more" href="${favpicUrl }">..more</a>
+							<a  href="${favpicUrl }">더보기</a>
 						</div>
 						<div class="row">
-							<img class="pic150" src="<spring:url value='/resources/img/logo.jpg'/>" class="img-thumbnail" alt="...">	
-							<img class="pic150" src="<spring:url value='/resources/img/logo1.jpg'/>" class="img-thumbnail" alt="...">	
-							<img class="pic150" src="<spring:url value='/resources/img/logo2.jpg'/>" class="img-thumbnail" alt="...">	
-							<img class="pic150" src="<spring:url value='/resources/img/logo3.jpg'/>" class="img-thumbnail" alt="...">	
-							<img class="pic150" src="<spring:url value='/resources/img/logo4.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo1.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo2.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo3.jpg'/>" class="img-thumbnail" alt="...">	
+							<img class="pic100" src="<spring:url value='/resources/img/logo4.jpg'/>" class="img-thumbnail" alt="...">	
 						</div>
 					</div>
 					<div class="activeBox">
-						<div class="row d-flex justify-content-between">
+						<div class="row">
 							<h3>내가 쓴 글</h3>
-							<a class="more" href="${mypostUrl }">..more</a>
+							<a  href="${mypostUrl }">더보기</a>
 						</div>
 						<ul>
-							<c:forEach items="${freeBoardLimit5 }" var="writing">
-								<li><a href="${freeBoardUrl }?id=${writing.board_id}">${writing.title }</a></li>
-							</c:forEach>
+							<li>글글글1</li>
+							<li>글글글2</li>
+							<li>글글글3</li>
+							<li>글글글4</li>
+							<li>글글글5</li>
 						</ul>
 					</div>
 					<div class="activeBox">
-						<div class="row d-flex justify-content-between">
+						<div class="row">
 							<h3>내 댓글</h3>
-							<a class="more" href="${myreplyUrl }">..more</a>
+							<a  href="${myreplyUrl }">더보기</a>
 						</div>
 						<ul>
 							<li>댓글댓글댓글1</li>
@@ -209,32 +170,20 @@
 	
 	<b:bottomInfo></b:bottomInfo>
 	
-		
-	<!-- modal -->
-	<c:if test="${not empty result }">
-		<div class="modal" tabindex="-1" id="modal1">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">결과</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        <p>${result }</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	</c:if>
-			
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 
+<script>
+	/* 답글 토글 */
+	$(document).ready(function(){
+		$(".guestbookReply").click(function(){
+			var element = $(this).parent();
+			var element2 = element.parent();
+			element2.next().slideToggle("fast");
+		});
+	});
+</script>
 </body>
 </html>

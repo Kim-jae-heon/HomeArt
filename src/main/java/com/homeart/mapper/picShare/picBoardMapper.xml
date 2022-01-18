@@ -5,84 +5,22 @@
 
 <mapper namespace="com.homeart.mapper.picShare.picBoardMapper">
 
-	<select id="card_count" parameterType="com.homeart.domain.picShare.picBoardVO" resultType="int">
-		SELECT count(b.board_id) FROM picBoard b
-		JOIN Member m
-		ON b.writer = m.member_id
-		<choose>
-			<when test="title != null">
-				WHERE (b.title LIKE CONCAT('%', #{title}, '%'))
-			</when>
-			<when test="nickName != null">
-				WHERE (m.nickName LIKE CONCAT('%', #{nickName}, '%'))
-			</when>
-			<when test="all != null">
-				WHERE (b.title LIKE CONCAT ('%', #{all}, '%'))
-				OR (m.nickName LIKE CONCAT('%', #{all}, '%'))
-				OR (b.content LIKE CONCAT('%', #{all}, '%'))
-			</when>
-		</choose>
-	</select>
-	
-	<select id="getList" parameterType="com.homeart.domain.picShare.picBoardVO" resultType="com.homeart.domain.picShare.picBoardVO">
-		SELECT b.board_id, b.title, b.content, b.writer, b.file_name, b.inserted, b.updated, m.nickName, b.like_cnt
+
+	<select id="getListPage" resultType="com.homeart.domain.picShare.picBoardVO">
+		SELECT b.board_id, b.title, b.content, b.writer, b.file_name, b.inserted, b.updated, m.nickName
 		FROM picBoard b
 		JOIN Member m
 		ON b.writer = m.member_id
-		<choose>
-			<when test="title != null">
-				WHERE (b.title LIKE CONCAT('%', #{title}, '%'))
-			</when>
-			<when test="nickName != null">
-				WHERE (m.nickName LIKE CONCAT('%', #{nickName}, '%'))
-			</when>
-			<when test="all != null">
-				WHERE (b.title LIKE CONCAT ('%', #{all}, '%'))
-				OR (m.nickName LIKE CONCAT('%', #{all}, '%'))
-				OR (b.content LIKE CONCAT('%', #{all}, '%'))
-			</when>
-		</choose>
 		ORDER BY board_id DESC
-		LIMIT #{startRowNum}, #{rowCount}
+		LIMIT #{from}, #{items}
 	</select>
-
-	<!-- like query -->
-	<insert id="insertLike" useGeneratedKeys="true" keyColumn="like_id" keyProperty="like_id">
-		INSERT INTO picBoardLike (board_id, member_id)
-		VALUES (#{board_id}, #{member_id})
-	</insert>
-	
-	<update id="likeUp">
-		UPDATE picBoard b
-		SET b.like_cnt = (SELECT count(*) FROM picBoardLike l WHERE l.board_id = #{board_id})
-		WHERE b.board_id = #{board_id}
-	</update>
-	
-	<delete id="deleteLike">
-		DELETE FROM picBoardLike 
-		WHERE board_id = #{board_id} AND member_id = #{member_id}
-	</delete>
-	
-	<!-- 
-	<update id="likeDown">
-		UPDATE picBoard SET like_cnt = like_cnt - 1
-		WHERE board_id = #{board_id}
-	</update>
-	 -->
-	
-	<!-- 좋아요 추가/삭제시 좋아요 갯수 가져오기 -->
-	<select id="heart_count" resultType="int">
-		SELECT COUNT(*) FROM picBoardLike WHERE board_id=#{board_id}
-	</select>
-
-	<!-- 원래 -->
 	
 	<select id="getCountRows" resultType="int">
 		SELECT COUNT(*) FROM picBoard
 	</select>
 	
 	<select id="read" resultType="com.homeart.domain.picShare.picBoardVO">
-		SELECT b.board_id, b.title, b.content, b.writer,  b.file_name, b.inserted, b.updated, m.nickName, b.like_cnt
+		SELECT b.board_id, b.title, b.content, b.writer,  b.file_name, b.inserted, b.updated, m.nickName
 		FROM picBoard b
 		JOIN Member m
 		ON b.writer = m.member_id
@@ -95,7 +33,7 @@
 	</insert>
 	
 	<delete id="delete">
-		DELETE FROM picBoard WHERE board_id = #{board_id}
+		DELETE FROM picBoard WHERE picBoard_id = #{id}
 	</delete>
 	
 	<update id="update">
@@ -103,45 +41,8 @@
 		SET title=#{title},
 			content=#{content},
 			updated=NOW()
-		WHERE board_id = #{board_id}
+		WHERE board_id = #{id}
 	</update>
-	
-	<select id="getWriterArt" resultType="com.homeart.domain.picShare.picBoardVO">
-		SELECT b.board_id, b.title, b.content, b.writer,  b.file_name, b.inserted, b.updated, m.nickName
-		FROM picBoard b
-		JOIN Member m
-		ON b.writer = m.member_id
-		WHERE b.writer = (SELECT a.writer FROM picBoard a WHERE a.board_id = #{id}) AND (b.board_id != #{id})
-	</select>
-	
-	<select id="getArtist" resultType="com.homeart.domain.picShare.picBoardVO">
-		SELECT b.board_id, b.title, b.content, b.writer,  b.file_name, b.inserted, b.updated, m.nickName
-		FROM picBoard b
-		JOIN Member m
-		ON b.writer = m.member_id
-		WHERE b.writer = (SELECT a.writer FROM picBoard a WHERE a.board_id = #{id})
-		ORDER BY board_id DESC
-	</select>
-	
-	<select id="selectSearchList" parameterType="com.homeart.domain.picShare.picBoardVO" resultType="com.homeart.domain.picShare.picBoardVO">
-		SELECT b.board_id, b.title, b.content, b.writer, b.file_name, b.inserted, b.updated, m.nickName
-		FROM picBoard b
-		JOIN Member m
-		ON b.writer = m.member_id
-		<choose>
-			<when test="type != null and type.equals('title')">
-				WHERE b.title LIKE concat('%', #{keyword}, '%')			
-			</when>
-			<when test="type != null and type.equals('writer')">
-				WHERE m.nickName LIKE concat('%', #{keyword}, '%')
-			</when>
-			<otherwise>
-				WHERE b.title, b.content, b.writer LIKE concat('%', #{keyword}, '%')
-			</otherwise>
-		</choose>
-		ORDER BY board_id DESC
-	</select>
-	
 	
 	
 

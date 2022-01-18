@@ -54,14 +54,14 @@ body {
 								<input type="text" class="form-control" placeholder="artName" aria-describedby="button-addon2" name="title">
 							</div>
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" readonly value="${loggedInMember.member_id }" aria-describedby="button-addon2" name="writer">
+								<input type="text" class="form-control" readonly placeholder="${loggedInMember.nickName }" value="${loggedInMember.member_id }" aria-describedby="button-addon2" name="writer">
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend"></div>
 								<textarea class="form-control" aria-label="With textarea" placeholder="artinfo" style="resize: none;" rows="10" name="content"></textarea>
 							</div>
 
-							<input type="hidden" name="board_id" value="${board.board_id }">
+							<input type="hidden" name="boardId" value="${board.board_id }">
 							<input type="hidden" name="nickName" value="${board.nickName }">
 
 						</div>

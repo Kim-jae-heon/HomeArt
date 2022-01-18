@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.homeart.domain.mypage.GuestbookCommentVO;
-import com.homeart.domain.mypage.GuestbookVO;
-import com.homeart.mapper.mypage.GuestbookMapper;
+import com.homeart.domain.member.GuestbookCommentVO;
+import com.homeart.domain.member.GuestbookVO;
+import com.homeart.mapper.member.GuestbookMapper;
 
 import lombok.Setter;
 
@@ -22,17 +22,6 @@ public class GuestbookService {
 		
 		try {
 			return mapper.insert(vo) == 1;			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public boolean registerNoPic(GuestbookVO vo) {
-		
-		try {
-			return mapper.insertNoPic(vo) == 1;			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

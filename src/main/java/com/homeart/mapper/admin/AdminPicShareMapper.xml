@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homeart.mapper.admin.AdminPicShareMapper">
+
+	<select id="getListPage"
+		resultType="com.homeart.domain.admin.AdminPicShareVO">
+		SELECT b.board_id, b.title, b.content, b.writer,
+		b.file_name, b.inserted, b.updated, m.nickName
+		FROM picBoard b
+		JOIN
+		Member m
+		ON b.writer = m.member_id
+		ORDER BY board_id DESC
+		LIMIT #{from},
+		#{items}
+	</select>
+
+	<select id="getCountRows" resultType="int">
+		SELECT COUNT(*) FROM
+		picBoard
+	</select>
+
+	<select id="read"
+		resultType="com.homeart.domain.admin.AdminPicShareVO">
+		SELECT b.board_id, b.title, b.content, b.writer,
+		b.file_name, b.inserted, b.updated, m.nickName
+		FROM picBoard b
+		JOIN
+		Member m
+		ON b.writer = m.member_id
+		WHERE b.board_id = #{id}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM picBoard WHERE picBoard_id = #{id}
+	</delete>
+
+</mapper>

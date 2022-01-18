@@ -25,19 +25,25 @@ table tr td > div {
 }
 
 /* signup 페이지에서 사용 */
-.valid {
-	color: green;
+.valid, .invalid {
 	font-size: 11px;
 	font-weight: bold;
 }
 
+.valid {
+	color: green;
+}
+
+.invalid {
+	color: red;
+}
+
 .mustinfo {
+	text-align: right;
 	margin: 0 auto;
-	margin-left: 550px;
 	padding-bottom: 5px;
 	font-size: 13px;
 	color: blue;
-	white-space: nowrap;
 }
 
 /* 창 크기 계산해서 중앙 정렬 */

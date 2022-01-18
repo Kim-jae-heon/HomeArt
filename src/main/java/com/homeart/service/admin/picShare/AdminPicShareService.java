@@ -1,6 +1,5 @@
-package com.homeart.service.picShare;
+package com.homeart.service.admin.picShare;
 
-import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,28 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.homeart.domain.picShare.picBoardVO;
-import com.homeart.domain.picShare.picPageInfoVO;
-import com.homeart.mapper.picShare.picBoardMapper;
+import com.homeart.domain.admin.AdminPageInfoVO;
+import com.homeart.domain.admin.AdminPicShareVO;
+import com.homeart.mapper.admin.AdminPicShareMapper;
 
 import lombok.Setter;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
-public class picBoardService {
-
+public class AdminPicShareService {
 	@Setter(onMethod_ = @Autowired)
-	private picBoardMapper boardMapper;
+	private AdminPicShareMapper boardMapper;
 	
 	@Value("${aws.accessKeyId}")
 	private String accessKeyId;
@@ -74,26 +68,14 @@ public class picBoardService {
 		s3.deleteObject(deleteObjectRequest);
 	}
 	
-	// s3에서 key로 객체 업로드(put)
-	private void putObject(String key, Long size, InputStream source) {
-		PutObjectRequest pubObjectRequest = PutObjectRequest.builder()
-															.bucket(bucketName)
-															.key(key)
-															.acl(ObjectCannedACL.PUBLIC_READ)
-															.build();
-		
-		RequestBody requestBody = RequestBody.fromInputStream(source, size);
-		s3.putObject(pubObjectRequest, requestBody);
-	}
-	
-	public List<picBoardVO> getListPage(Integer page, Integer numberPerPage) {
+	public List<AdminPicShareVO> getListPage(Integer page, Integer numberPerPage) {
 		
 		Integer from = (page-1) * 10;
 		
 		return boardMapper.getListPage(from, numberPerPage);
 	}
 
-	public picPageInfoVO getPageInfo(Integer page, Integer numberPerPage) {
+	public AdminPageInfoVO getPageInfo(Integer page, Integer numberPerPage) {
 		
 		Integer countRows = boardMapper.getCountRows();
 		
@@ -106,7 +88,7 @@ public class picBoardService {
 		Boolean hasPrevButton = leftPageNumber != 1;
 		Boolean hasNextButton = rightPageNumber != lastPage;
 		
-		picPageInfoVO picPageInfo = new picPageInfoVO();
+		AdminPageInfoVO picPageInfo = new AdminPageInfoVO();
 		
 		picPageInfo.setCountRows(countRows);
 		
@@ -121,30 +103,10 @@ public class picBoardService {
 		return picPageInfo;
 	}
 
-	public picBoardVO get(Integer id) {
+	public AdminPicShareVO get(Integer id) {
 		return boardMapper.read(id);
 	}
-
-	@Transactional
-	public void register(picBoardVO board, MultipartFile file) throws Exception {
-		
-			if (file != null && file.getSize() > 0) {
-				boardMapper.insert(board);
-				
-				System.out.println(board.getBoard_id());
-				// 1. s3에 file 작성
-				String key = "picShare/" + board.getBoard_id() + "/" + file.getOriginalFilename();
-				putObject(key, file.getSize(), file.getInputStream());
-				
-				// 2. insert into File, DATABASE
-				// filename을 multipartFile에서 가져와서 picBoard 테이블에 추가하는 메서드 추가
-				
-			}
-			
-			return;
-			
-	}
-
+	
 	@Transactional
 	public void remove(@Param("id") Integer id, MultipartFile file) {
 		
@@ -159,13 +121,4 @@ public class picBoardService {
 		return;
 		
 	}
-
-
-	public boolean modify(picBoardVO board) {
-		
-		return boardMapper.update(board) == 1;
-		
-	}
-
-
 }

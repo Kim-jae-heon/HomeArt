@@ -73,5 +73,5 @@ SELECT
 		ORDER BY
 			board_id DESC;
             
-DELETE FROM freeBoard WHERE board_id = 4;
+DELETE FROM freeBoard WHERE board_id = 63;
 

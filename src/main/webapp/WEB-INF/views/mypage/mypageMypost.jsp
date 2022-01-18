@@ -16,9 +16,7 @@
 <link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/resources/css/homeart.css" rel="stylesheet" type="text/css">
 
-<c:url value="/freeBoard/get" var="freeBoardUrl"></c:url>
-
-<title>My post</title>
+<title>Insert title here</title>
 </head>
 <body>
 <b:navBar></b:navBar>
@@ -27,29 +25,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<h1 style="margin: 30px 0 20px 0">내가 쓴 글</h1>
-				<table class="table">
-					<thead>
-						<tr>
-							<th class=col-1>
-								<i class="fab fa-slack-hash"></i>
-							</th>
-							<th class=col-5>제목</th>
-							<th class=col-2 style="text-align: center;">작성일</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${freeBoard }" var="writing" varStatus="status">
-							<tr>
-								<td class=col-1>${status.count }</td>
-								<td class=col-5>
-									<a href="${freeBoardUrl }?id=${writing.board_id}">${writing.title }</a>
-								</td>
-								<td class=col-2>${writing.boardInserted }</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+				<h1>내가 쓴 글</h1>
+				<p>글</p>
+				<p>글</p>
+				<p>글</p>
+				<p>글</p>
+				<p>글</p>
+				<p>글</p>
 			</div>
 		</div>
 	</div>

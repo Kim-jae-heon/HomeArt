@@ -2,9 +2,7 @@ package com.homeart.service.masterpiece;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -12,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.homeart.domain.masterpiece.MasterpieceVO;
 import com.homeart.domain.masterpiece.PageInfoVO;
-import com.homeart.domain.masterpiece.likeVO;
 import com.homeart.mapper.masterpiece.MasterpieceMapper;
 
 import lombok.Setter;
@@ -89,46 +85,15 @@ public class MasterpieceService {
 		s3.putObject(putObjectRequest, requestBody);
 	}
 
-	public MasterpieceVO get(Integer masterpiece_id) {
-		return mapper.read(masterpiece_id);
+	public MasterpieceVO get(Integer id) {
+		return mapper.read(id);
 	}
 
 	public boolean modify(MasterpieceVO masterpiece) {
 		return mapper.update(masterpiece) == 1;
 	}
+
 	
-	@Transactional
-	public boolean modify(MasterpieceVO masterpiece, String removeFile, MultipartFile file)
-			throws IllegalStateException, IOException {
-		modify(masterpiece);
-
-		// 파일 삭제
-		if (removeFile != null) {
-				// s3에서 삭제
-				String key = "masterpiece/" + masterpiece.getMasterpiece_id() + "/" + removeFile;
-				deleteObject(key);
-				
-//				// db table에서 삭제
-//				mapper.filedelete(masterpiece.getMasterpiece_id(), removeFile);
-				
-		}
-
-		// 새 파일 추가 (s3)
-
-			if (file != null && file.getSize() > 0) {
-				// 1. write file to s3
-				String key = "masterpiece/" + masterpiece.getMasterpiece_id() + "/" + file.getOriginalFilename();
-				
-				putObject(key, file.getSize(), file.getInputStream());
-
-//				// 2. db에 파일명 변경
-//				mapper.filedelete(masterpiece.getMasterpiece_id(), file.getOriginalFilename());
-//				mapper.fileinsert(masterpiece.getMasterpiece_id(), file.getOriginalFilename());
-			}
-
-		return false;
-	}
-
 
 	public List<MasterpieceVO> getList() {
 		return mapper.getList();
@@ -195,61 +160,6 @@ public class MasterpieceService {
 			return;
 
 	}
-	
-	@Transactional
-	public boolean remove(@RequestParam("id") Integer id, MultipartFile file) {
-		// 1. 게시물 달린 댓글 지우기
-
-		// 2. 파일 지우기
-		// s3에서 삭제
-//		String file = mapper.selectNamesByMasterpieceId(id);
-
-		if (file != null) {
-				mapper.delete(id);
-			
-				String key = "masterpiece/" + id + "/" + file;
-				deleteObject(key);
-		}
-
-		// db 에서 삭제
-//		mapper.deleteByMasterpieceId(id);
-
-		// 3. 게시물 지우기
-		return mapper.delete(id) == 1;
-	}
-	
-	//좋아요 갯수
-	public Map<String,Object> updateLike(Integer masterpiece_id, String member_id) {
-		System.out.println("updateLike 서비스 접근");
-		//좋아요 있나없나.
-		likeVO vo = new likeVO();
-		vo = mapper.getLike(masterpiece_id, member_id);
-		System.out.println("업데이트라이크 잘되나 vo: " + vo);
-		String msg="";
-		int result = 0;
-		int likeSu = 0;
-		if( vo==null) { //좋아요테이블에 값이 없을경우
-			//인서트
-			result = mapper.addLike(masterpiece_id, member_id);
-			System.out.println("addLike는" + result);
-			likeSu = mapper.getLikeSu(masterpiece_id);
-			System.out.println("likeSu는" + likeSu );
-			msg = "좋아요 !";
-		} else { //있을경우
-			//딜리트
-			result = mapper.delLike(masterpiece_id, member_id);
-			likeSu = mapper.getLikeSu(masterpiece_id);
-			System.out.println("likeSu는" + likeSu );
-			msg = "좋아요 취소";
-		}
-		Map<String,Object> map = new HashMap();
-		System.out.println("업데이트라이크 result: " + result);
-		map.put("result",result);
-		map.put("likeSu", likeSu);
-		map.put("msg",msg);
-		return map;
-	}
-	
 
 	
 }
